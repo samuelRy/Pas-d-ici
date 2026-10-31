@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Contenu — Danses du Bénin</title>
+</head>
+<body>
+  <header class="entete" id="entete"></header>
+  <main class="contenu">
+    <p><a href="/explorer.html">← Retour à l'exploration</a></p>
+    <div class="alerte" id="alerte" role="alert" hidden></div>
+
+    <article id="fiche" hidden>
+      <div id="lecteur"></div>
+      <p class="etiquette-fiche" id="kicker"></p>
+      <h1 id="titre"></h1>
+      <p class="chapeau" id="createur"></p>
+      <p class="note" id="note-statut" hidden></p>
+      <section class="boite-acces" id="acces"></section>
+      <section id="section-contexte" hidden>
+        <h2>Contexte culturel</h2>
+        <p class="contexte" id="contexte"></p>
+      </section>
+      <section id="section-article" class="section-article" hidden><p class="chapeau" id="chapeau-article"></p><div class="corps-article" id="corps-article"></div><p class="ligne-detail" id="sources-article"></p><p class="ligne-detail" id="temps-lecture"></p></section>
+    </article>
+  </main>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/contenu.js"></script>
+</body>
+</html>

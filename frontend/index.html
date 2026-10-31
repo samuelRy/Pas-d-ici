@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Danses du Bénin</title>
+</head>
+<body>
+  <header class="entete" id="entete"></header>
+  <main class="contenu">
+    <p class="note" id="note-attente" hidden>Votre compte créateur est en cours de vérification. Vous pourrez publier dès sa validation par l'équipe.</p>
+    <h1>Les danses du Bénin</h1>
+    <p class="chapeau">Découvrez, publiez et soutenez les danses traditionnelles béninoises.</p>
+    <div class="alerte" id="alerte" role="alert" hidden></div>
+    <ul class="grille" id="liste-danses"></ul>
+
+    <h2>Récemment publié</h2>
+    <ul class="liste-contenus" id="liste-recents"></ul>
+    <p class="chapeau" id="aucun-recent" hidden>Aucun contenu publié pour le moment.</p>
+    <p><a href="/explorer.html">Tout explorer →</a></p>
+  </main>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/cartes.js"></script>
+  <script src="/js/accueil.js"></script>
+</body>
+</html>

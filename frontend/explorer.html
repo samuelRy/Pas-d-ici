@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Explorer — Danses du Bénin</title>
+</head>
+<body>
+  <header class="entete" id="entete"></header>
+  <main class="contenu">
+    <h1>Explorer</h1>
+    <div class="alerte" id="alerte" role="alert" hidden></div>
+
+    <div class="recherche">
+      <label class="visuellement-cache" for="recherche">Rechercher un titre ou un créateur</label>
+      <input id="recherche" type="search" placeholder="Un titre, un créateur…" maxlength="100" autocomplete="off">
+    </div>
+
+    <h2>Par danse</h2>
+    <div class="filtres" id="filtres-danses"></div>
+
+    <h2>Par type de contenu</h2>
+    <div class="filtres" id="filtres-types"></div>
+
+    <p class="compte" id="compte" role="status"></p>
+    <ul class="liste-contenus" id="liste"></ul>
+    <p class="chapeau" id="vide" hidden>Aucun contenu ne correspond à ces filtres.</p>
+    <button type="button" class="bouton bouton-discret bouton-large" id="plus" hidden>Voir plus</button>
+  </main>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/cartes.js"></script>
+  <script src="/js/explorer.js"></script>
+</body>
+</html>

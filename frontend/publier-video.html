@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/css/style.css">
+<title>Publier un contenu — Danses du Bénin</title></head>
+<body><header class="entete" id="entete"></header>
+<main class="contenu publication-page">
+  <p><a href="/dashboard.html">← Mon tableau de bord</a></p><h1 id="titre-page">Publier une vidéo</h1>
+  <p class="chapeau">Partagez un contenu qui fait découvrir les danses traditionnelles du Bénin.</p>
+  <p class="note" id="blocage" hidden></p><div class="alerte" id="alerte" role="alert" hidden></div>
+  <p class="succes" id="succes" role="status" hidden>Votre contenu a bien été envoyé. Il sera visible après validation par l’équipe. <a href="/dashboard.html">Voir mon tableau de bord</a></p>
+  <form class="formulaire formulaire-publication" id="formulaire" hidden>
+    <label>Type de contenu</label>
+    <div class="segmented-tabs" role="group" aria-label="Type de contenu">
+      <button type="button" class="segment actif" data-type="video" aria-pressed="true">Vidéo</button><button type="button" class="segment" data-type="photo" aria-pressed="false">Photos</button><button type="button" class="segment" data-type="texte" aria-pressed="false">Texte</button>
+    </div><select id="type" name="type" required class="visuellement-cache" aria-label="Type de contenu"><option value="video">Vidéo</option><option value="photo">Photos</option><option value="texte">Texte</option></select>
+    <div id="zone-fichier" class="zone-depot"><label for="fichier" id="label-fichier">Déposer le fichier vidéo</label><input id="fichier" name="fichier" type="file" accept="video/mp4,video/webm" required><small id="aide-fichier">Vidéo MP4 ou WebM, maximum 200 Mo.</small></div>
+    <div id="zone-galerie" hidden><label for="galerie">Déposer les photos du reportage</label><div class="zone-depot zone-depot-photo"><span class="icone-upload">↑</span><strong>Choisir plusieurs photos</strong><small>JPG, PNG ou WebP · 10 Mo maximum par photo · 20 photos maximum</small><input id="galerie" type="file" name="fichiers[]" accept="image/jpeg,image/png,image/webp" multiple></div><div id="apercus-photos" class="apercus-photos" hidden></div><p class="aide-formulaire" id="aide-couverture" hidden>Touchez une photo pour la définir comme couverture ou utilisez les flèches pour changer l’ordre.</p><label for="photos_gratuites">Photos visibles gratuitement</label><input id="photos_gratuites" name="photos_gratuites" type="number" min="0" max="20" value="1" inputmode="numeric"><small class="ligne-detail">Les premières photos servent d’aperçu gratuit. La galerie complète suit le mode de monétisation choisi.</small></div>
+    <label for="titre">Titre <span class="requis">*</span></label><input id="titre" name="titre" type="text" required minlength="3" maxlength="200" placeholder="Ex. : Les pas essentiels de l’Agbadja">
+    <label for="danse_id">Danse concernée</label><select id="danse_id" name="danse_id" required></select>
+    <div id="zone-contexte"><label for="contexte_culturel" id="label-contexte">Contexte culturel</label><textarea id="contexte_culturel" name="contexte_culturel" maxlength="5000" rows="3" placeholder="Origine, occasion, signification des gestes et des costumes…"></textarea></div>
+    <section id="zone-article" class="zone-article" hidden>
+      <label for="chapeau">Chapeau (2 à 3 phrases)</label><textarea id="chapeau" name="chapeau" minlength="10" maxlength="1500" rows="3" placeholder="Résumez le sujet pour donner envie de lire…"></textarea>
+      <label for="corps">Corps de l’article</label><div class="editeur-outils" role="toolbar" aria-label="Mise en forme du texte"><button type="button" data-format="bold" aria-label="Gras"><strong>T</strong></button><button type="button" data-format="italic" aria-label="Italique"><em>G</em></button><button type="button" data-format="quote" aria-label="Citation">“ ”</button><button type="button" data-format="link" aria-label="Lien">↗</button></div><textarea id="corps" name="corps" minlength="50" maxlength="50000" rows="10" placeholder="Rédigez le contexte historique, un témoignage, une explication…"></textarea><p class="lecture-estimee">Temps de lecture estimé : <strong id="temps-lecture">1 min</strong></p>
+      <label for="sources">Sources citées</label><textarea id="sources" name="sources" maxlength="5000" rows="3" placeholder="Ouvrages, entretiens, liens consultés…"></textarea>
+    </section>
+    <fieldset class="choix choix-trois choix-monetisation"><legend>Monétisation</legend><label class="choix-option"><input type="radio" name="mode_monetisation" value="gratuit" checked> Gratuit</label><label class="choix-option"><input type="radio" name="mode_monetisation" value="unite"> À l’unité</label><label class="choix-option"><input type="radio" name="mode_monetisation" value="abonnement"> Abonnement</label></fieldset>
+    <div id="champ-prix" hidden><label for="prix">Prix (FCFA)</label><input id="prix" name="prix" type="number" min="1" max="10000000" step="1" inputmode="numeric" placeholder="Ex. : 500"></div>
+    <p id="note-article" class="note note-article">Les articles restent en accès libre par défaut : ils font découvrir la plateforme et rendent les photos et vidéos plus faciles à trouver.</p>
+    <button type="submit" class="bouton bouton-large">Envoyer pour validation</button>
+  </form>
+</main><script src="/js/api.js"></script><script src="/js/layout.js"></script><script src="/js/publier-video.js"></script></body></html>

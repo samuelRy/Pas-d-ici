@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Connexion — Danses du Bénin</title>
+</head>
+<body>
+  <header class="entete" id="entete"></header>
+  <main class="contenu">
+    <h1>Se connecter</h1>
+    <div class="alerte" id="alerte" role="alert" hidden></div>
+    <form class="formulaire" id="formulaire">
+      <label for="email">Adresse e-mail</label>
+      <input id="email" name="email" type="email" autocomplete="email" required>
+
+      <label for="mot_de_passe">Mot de passe</label>
+      <input id="mot_de_passe" name="mot_de_passe" type="password" autocomplete="current-password" required>
+
+      <button type="submit" class="bouton bouton-large">Se connecter</button>
+    </form>
+    <p class="lien-bas">Pas encore de compte ? <a href="/inscription.html">Créer un compte</a></p>
+  </main>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/connexion.js"></script>
+</body>
+</html>

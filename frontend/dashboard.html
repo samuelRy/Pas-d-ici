@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css"><title>Mon tableau de bord — Danses du Bénin</title>
+</head>
+<body>
+<header class="entete" id="entete"></header>
+<main class="contenu dashboard-page">
+  <div class="dashboard-entete"><div><p class="kicker">ESPACE CRÉATEUR</p><h1>Mon tableau de bord</h1><p class="chapeau">Suivez vos publications, vos vues et vos revenus.</p></div><a class="bouton" href="/publier-video.html">+ Publier</a></div>
+  <div class="alerte" id="alerte" role="alert" hidden></div>
+  <section class="solde-carte"><div><span>Solde disponible</span><strong id="solde">— FCFA</strong><small id="solde-note">Les demandes de retrait sont vérifiées par l’administration.</small></div><a class="bouton bouton-blanc" href="/retrait.html">Retirer par mobile money</a></section>
+  <section class="stats-dashboard" aria-label="Statistiques"><article class="stat-carte"><span>Vues totales</span><strong id="vues">—</strong></article><article class="stat-carte"><span>Contenus publiés</span><strong id="publies">—</strong></article><article class="stat-carte"><span>En validation</span><strong id="attente">—</strong></article></section>
+  <div class="section-titre"><h2>Mes publications</h2><a href="/mes-contenus.html">Voir tous les contenus</a></div>
+  <ul class="liste liste-dashboard" id="liste-contenus"></ul><p class="chapeau" id="vide-contenus" hidden>Vous n’avez pas encore publié de contenu.</p>
+  <div class="section-titre"><h2>Mes demandes de retrait</h2><a href="/retrait.html">Nouvelle demande</a></div>
+  <ul class="liste" id="liste-retraits"></ul><p class="chapeau" id="vide-retraits" hidden>Aucune demande de retrait pour le moment.</p>
+</main>
+<script src="/js/api.js"></script><script src="/js/layout.js"></script><script src="/js/dashboard.js"></script>
+</body></html>
