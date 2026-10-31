@@ -5,7 +5,18 @@ RUN a2enmod rewrite headers \
 COPY frontend/ /var/www/html/
 COPY backend/  /var/www/backend/
 # Apache config that sends /api/* to the backend entry point
-COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
+RUN printf '%s\n' \
+ '<VirtualHost *:80>' \
+ '  DocumentRoot /var/www/html' \
+ '  <Directory /var/www/html>' \
+ '    Require all granted' \
+ '  </Directory>' \
+ '  Alias /api /var/www/backend/public' \
+ '  <Directory /var/www/backend/public>' \
+ '    Require all granted' \
+ '    FallbackResource /api/index.php' \
+ '  </Directory>' \
+ '</VirtualHost>' > /etc/apache2/sites-available/000-default.conf
 
 RUN mkdir -p /var/www/storage && chown -R www-data:www-data /var/www/storage
 # Set working directory
