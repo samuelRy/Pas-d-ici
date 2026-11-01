@@ -52,6 +52,9 @@ final class StockageService
 
         $nom = bin2hex(random_bytes(16)) . '.' . self::TYPES_VIDEO[$mime];
         if (!move_uploaded_file($fichier['tmp_name'], $dossier . '/' . $nom)) {
+            $err = error_get_last()['message'] ?? 'aucun détail';
+            error_log("Upload KO : dossier=$dossier existe=" . var_export(is_dir($dossier), true)
+                . " ecriture=" . var_export(is_writable($dossier), true) . " | $err");
             throw new RuntimeException('Impossible d\'enregistrer le fichier déposé.');
         }
         chmod($dossier . '/' . $nom, 0640);
@@ -119,7 +122,7 @@ final class StockageService
 
         $taille = (int) filesize($fichier);
         $extension = strtolower(pathinfo($cheminRelatif, PATHINFO_EXTENSION));
-        $mime = match ($extension) { 'webm' => 'video/webm', 'mp4' => 'video/mp4', 'jpg' => 'image/jpeg', 'png' => 'image/png', 'webp' => 'image/webp', default => 'application/octet-stream' };
+        $mime = match ($extension) { 'webm' => 'video/webm', 'mp4' => 'video/mp4', 'jpg' => 'image/jpeg', 'png' => 'image/png', 'webp' => 'image/webp', default => 'application/octet-stream'};
         if (str_starts_with($mime, 'image/')) {
             session_write_close();
             header('Content-Type: ' . $mime);
