@@ -4,7 +4,8 @@ RUN a2enmod rewrite headers \
 
 COPY frontend/ /var/www/html/
 COPY backend/  /var/www/backend/
-# Apache config that sends /api/* to the backend entry point
+
+# Apache : /api est servi par le backend
 RUN printf '%s\n' \
  '<VirtualHost *:80>' \
  '  DocumentRoot /var/www/html' \
@@ -18,12 +19,14 @@ RUN printf '%s\n' \
  '  </Directory>' \
  '</VirtualHost>' > /etc/apache2/sites-available/000-default.conf
 
-RUN mkdir -p /var/www/storage && chown -R www-data:www-data /var/www/storage
-# Set working directory
+# Limites d'upload de PHP (sans cela : 2 Mo maximum par fichier)
+RUN printf "upload_max_filesize=210M\npost_max_size=215M\n" > /usr/local/etc/php/conf.d/uploads.ini
+
+# Dossier de stockage : même chemin que celui du backend, droits pour Apache
+RUN mkdir -p /var/www/backend/storage/uploads/videos \
+ && chown -R www-data:www-data /var/www/backend/storage \
+ && chmod -R 750 /var/www/backend/storage
+
 WORKDIR /var/www/html/
-
-# Expose port 80 (Render uses this automatically)
 EXPOSE 80
-
-# Enable .htaccess support
 RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
