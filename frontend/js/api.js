@@ -45,7 +45,7 @@ const Api = (() => {
     }
 
     if (!response.ok || !json || json.ok !== true) {
-      throw apiError(response.status, (json && json.erreurs) || ['Une erreur est survenue.', json.errors]);
+      throw apiError(response.status, (json && json.erreurs) || ['Une erreur est survenue.']);
     }
     return json.data;
   }
