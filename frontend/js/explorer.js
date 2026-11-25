@@ -27,34 +27,26 @@ const etat = {
 let numeroRequete = 0;
 let minuterie = null;
 
-/** Boutons de filtre : un seul est actif à la fois (aria-pressed), le choix est transmis à auChoix(). */
-function construireFiltres(conteneur, options, valeurActive, auChoix) {
-  const boutons = options.map((option) => {
-    const bouton = Layout.el('button', { type: 'button', class: 'filtre' }, option.libelle);
-    bouton.addEventListener('click', () => {
-      auChoix(option.valeur);
-      majActifs();
-    });
-    return { option, bouton };
-  });
-  function majActifs() {
-    const active = conteneur.dataset.actif;
-    boutons.forEach(({ option, bouton }) => bouton.setAttribute('aria-pressed', String(option.valeur === active)));
-  }
-  conteneur.dataset.actif = valeurActive;
-  conteneur.replaceChildren(...boutons.map((b) => b.bouton));
-  return {
-    choisir(valeur) {
-      conteneur.dataset.actif = valeur;
-      majActifs();
-    },
-    init: majActifs,
-  };
+/** Garde l'adresse à jour : le bouton « retour », l'actualisation et le partage conservent les filtres. */
+function synchroniserAdresse() {
+  const p = new URLSearchParams();
+  if (etat.danseId) p.set('danse_id', etat.danseId);
+  if (etat.type) p.set('type', etat.type);
+  if (etat.q) p.set('q', etat.q);
+  const texte = p.toString();
+  history.replaceState(null, '', window.location.pathname + (texte ? '?' + texte : ''));
 }
 
 async function charger(suite) {
   const courant = ++numeroRequete;
   Layout.hideErrors(alerte);
+  if (!suite) {
+    // Changement de filtre : on estompe l'ancienne liste au lieu de la laisser comme si de rien n'était.
+    liste.setAttribute('aria-busy', 'true');
+    compte.textContent = 'Chargement…';
+    vide.hidden = true;
+    plus.hidden = true;
+  }
 
   const params = new URLSearchParams({ limite: String(LIMITE), decalage: String(suite ? etat.decalage : 0) });
   if (etat.danseId) params.set('danse_id', etat.danseId);
@@ -66,6 +58,7 @@ async function charger(suite) {
     if (courant !== numeroRequete) return; // une requête plus récente est partie entre-temps
 
     if (!suite) liste.replaceChildren();
+    liste.removeAttribute('aria-busy');
     resultat.items.forEach((contenu) => liste.append(Layout.el('li', {}, Cartes.contenu(contenu))));
 
     etat.decalage = resultat.decalage + resultat.items.length;
@@ -73,16 +66,21 @@ async function charger(suite) {
     vide.hidden = resultat.total > 0;
     plus.hidden = etat.decalage >= resultat.total;
   } catch (error) {
+    if (courant !== numeroRequete) return;
+    liste.removeAttribute('aria-busy');
+    compte.textContent = '';
     Layout.showErrors(alerte, error.erreurs);
   }
 }
 
 function recharger() {
   etat.decalage = 0;
+  synchroniserAdresse();
   charger(false);
 }
 
 champRecherche.value = etat.q;
+if (window.location.hash === '#recherche') champRecherche.focus();
 champRecherche.addEventListener('input', () => {
   clearTimeout(minuterie);
   minuterie = setTimeout(() => {
@@ -92,20 +90,21 @@ champRecherche.addEventListener('input', () => {
 });
 plus.addEventListener('click', () => charger(true));
 
-const filtreTypes = construireFiltres(filtresTypes, TYPES, etat.type, (valeur) => {
+Layout.filtres(filtresTypes, TYPES, etat.type, (valeur) => {
   etat.type = valeur;
   recharger();
 });
-filtreTypes.init();
 
+Layout.filtresEnAttente(filtresDanses, 4);
 Api.get('/danses')
   .then((danses) => {
     const options = [{ valeur: '', libelle: 'Toutes' }, ...danses.map((d) => ({ valeur: String(d.id), libelle: d.nom }))];
-    const filtreDanses = construireFiltres(filtresDanses, options, etat.danseId, (valeur) => {
+    const inconnue = etat.danseId && !options.some((o) => o.valeur === etat.danseId);
+    Layout.filtres(filtresDanses, options, inconnue ? '' : etat.danseId, (valeur) => {
       etat.danseId = valeur;
       recharger();
     });
-    filtreDanses.init();
+    if (inconnue) { etat.danseId = ''; recharger(); }
   })
   .catch((error) => Layout.showErrors(alerte, error.erreurs));
 
