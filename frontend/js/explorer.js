@@ -27,30 +27,14 @@ const etat = {
 let numeroRequete = 0;
 let minuterie = null;
 
-/** Boutons de filtre : un seul est actif à la fois (aria-pressed), le choix est transmis à auChoix(). */
-function construireFiltres(conteneur, options, valeurActive, auChoix) {
-  const boutons = options.map((option) => {
-    const bouton = Layout.el('button', { type: 'button', class: 'filtre', 'aria-pressed': String(option.valeur === valeurActive) }, option.libelle);
-    bouton.addEventListener('click', () => {
-      conteneur.dataset.actif = option.valeur;
-      auChoix(option.valeur);
-      majActifs();
-    });
-    return { option, bouton };
-  });
-  function majActifs() {
-    const active = conteneur.dataset.actif;
-    boutons.forEach(({ option, bouton }) => bouton.setAttribute('aria-pressed', String(option.valeur === active)));
-  }
-  conteneur.dataset.actif = valeurActive;
-  conteneur.replaceChildren(...boutons.map((b) => b.bouton));
-  return {
-    choisir(valeur) {
-      conteneur.dataset.actif = valeur;
-      majActifs();
-    },
-    init: majActifs,
-  };
+/** Garde l'adresse à jour : le bouton « retour », l'actualisation et le partage conservent les filtres. */
+function synchroniserAdresse() {
+  const p = new URLSearchParams();
+  if (etat.danseId) p.set('danse_id', etat.danseId);
+  if (etat.type) p.set('type', etat.type);
+  if (etat.q) p.set('q', etat.q);
+  const texte = p.toString();
+  history.replaceState(null, '', window.location.pathname + (texte ? '?' + texte : ''));
 }
 
 async function charger(suite) {
