@@ -56,6 +56,13 @@ function construireFiltres(conteneur, options, valeurActive, auChoix) {
 async function charger(suite) {
   const courant = ++numeroRequete;
   Layout.hideErrors(alerte);
+  if (!suite) {
+    // Changement de filtre : on estompe l'ancienne liste au lieu de la laisser comme si de rien n'était.
+    liste.setAttribute('aria-busy', 'true');
+    compte.textContent = 'Chargement…';
+    vide.hidden = true;
+    plus.hidden = true;
+  }
 
   const params = new URLSearchParams({ limite: String(LIMITE), decalage: String(suite ? etat.decalage : 0) });
   if (etat.danseId) params.set('danse_id', etat.danseId);
@@ -67,6 +74,7 @@ async function charger(suite) {
     if (courant !== numeroRequete) return; // une requête plus récente est partie entre-temps
 
     if (!suite) liste.replaceChildren();
+    liste.removeAttribute('aria-busy');
     resultat.items.forEach((contenu) => liste.append(Layout.el('li', {}, Cartes.contenu(contenu))));
 
     etat.decalage = resultat.decalage + resultat.items.length;
@@ -74,16 +82,21 @@ async function charger(suite) {
     vide.hidden = resultat.total > 0;
     plus.hidden = etat.decalage >= resultat.total;
   } catch (error) {
+    if (courant !== numeroRequete) return;
+    liste.removeAttribute('aria-busy');
+    compte.textContent = '';
     Layout.showErrors(alerte, error.erreurs);
   }
 }
 
 function recharger() {
   etat.decalage = 0;
+  synchroniserAdresse();
   charger(false);
 }
 
 champRecherche.value = etat.q;
+if (window.location.hash === '#recherche') champRecherche.focus();
 champRecherche.addEventListener('input', () => {
   clearTimeout(minuterie);
   minuterie = setTimeout(() => {
@@ -93,20 +106,21 @@ champRecherche.addEventListener('input', () => {
 });
 plus.addEventListener('click', () => charger(true));
 
-const filtreTypes = construireFiltres(filtresTypes, TYPES, etat.type, (valeur) => {
+Layout.filtres(filtresTypes, TYPES, etat.type, (valeur) => {
   etat.type = valeur;
   recharger();
 });
-filtreTypes.init();
 
+Layout.filtresEnAttente(filtresDanses, 4);
 Api.get('/danses')
   .then((danses) => {
     const options = [{ valeur: '', libelle: 'Toutes' }, ...danses.map((d) => ({ valeur: String(d.id), libelle: d.nom }))];
-    const filtreDanses = construireFiltres(filtresDanses, options, etat.danseId, (valeur) => {
+    const inconnue = etat.danseId && !options.some((o) => o.valeur === etat.danseId);
+    Layout.filtres(filtresDanses, options, inconnue ? '' : etat.danseId, (valeur) => {
       etat.danseId = valeur;
       recharger();
     });
-    filtreDanses.init();
+    if (inconnue) { etat.danseId = ''; recharger(); }
   })
   .catch((error) => Layout.showErrors(alerte, error.erreurs));
 

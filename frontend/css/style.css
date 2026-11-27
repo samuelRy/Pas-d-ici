@@ -271,10 +271,12 @@ h2 { margin: 24px 0 8px; font-family: 'Bricolage Grotesque', system-ui, sans-ser
 
 .filtres { display: flex; flex-wrap: wrap; gap: 8px; }
 .filtre {
+  flex: none;
   min-height: 44px;
-  padding: 0 16px;
-  border: 1px solid var(--champ);
+  padding: 0 20px;
+  border: 1px solid var(--bordure);
   border-radius: 22px;
+  white-space: nowrap;
   background: #fff;
   color: var(--encre);
   font-family: inherit;
