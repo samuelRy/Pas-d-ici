@@ -123,10 +123,10 @@ const Layout = (() => {
     const path = window.location.pathname;
     const nav = el('nav', { class: 'navigation-basse', 'aria-label': 'Navigation principale' });
     const items = [
-      { label: 'Accueil', href: '/', icon: '⌂', active: path === '/' || path.endsWith('/index.html') },
-      { label: 'Explorer', href: '/explorer.html', icon: '◈', active: path.endsWith('/explorer.html') || path.endsWith('/contenu.html') },
-      { label: 'Publier', href: user && user.role === 'createur' ? '/publier-video.html' : '/connexion.html', icon: '↥', active: path.includes('publier-') },
-      { label: 'Mon espace', href: user && user.role === 'createur' ? '/dashboard.html' : (user && user.role === 'admin' ? '/admin.html' : '/connexion.html'), icon: '◎', active: path.endsWith('/dashboard.html') || path.endsWith('/mes-contenus.html') || path.endsWith('/admin.html') }
+      { label: 'Accueil', href: '/', icon: icone('explorer'), active: path === '/' || path.endsWith('/index.html') },
+      { label: 'Explorer', href: '/explorer.html', icon: icone('explorer'), active: path.endsWith('/explorer.html') || path.endsWith('/contenu.html') },
+      { label: 'Publier', href: user && user.role === 'createur' ? '/publier-video.html' : '/connexion.html', icon: icone('explorer'), active: path.includes('publier-') },
+      { label: 'Mon espace', href: user && user.role === 'createur' ? '/dashboard.html' : (user && user.role === 'admin' ? '/admin.html' : '/connexion.html'), icon: icone('explorer'), active: path.endsWith('/dashboard.html') || path.endsWith('/mes-contenus.html') || path.endsWith('/admin.html') }
     ];
     nav.replaceChildren(...items.map((item) => {
       const link = el('a', { href: item.href, class: 'navigation-item' + (item.active ? ' actif' : ''), ...(item.active ? {'aria-current':'page'} : {}) },
