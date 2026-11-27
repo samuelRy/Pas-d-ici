@@ -30,8 +30,9 @@ let minuterie = null;
 /** Boutons de filtre : un seul est actif à la fois (aria-pressed), le choix est transmis à auChoix(). */
 function construireFiltres(conteneur, options, valeurActive, auChoix) {
   const boutons = options.map((option) => {
-    const bouton = Layout.el('button', { type: 'button', class: 'filtre' }, option.libelle);
+    const bouton = Layout.el('button', { type: 'button', class: 'filtre', 'aria-pressed': String(option.valeur === valeurActive) }, option.libelle);
     bouton.addEventListener('click', () => {
+      conteneur.dataset.actif = option.valeur;
       auChoix(option.valeur);
       majActifs();
     });
