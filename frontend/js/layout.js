@@ -139,11 +139,10 @@ const Layout = (() => {
     if (user) {
       actions.append(el('span', { class: 'salutation' }, 'Bonjour, ' + user.nom));
       const logout = el('button', { type: 'button', class: 'bouton bouton-discret' }, 'Déconnexion');
-      logout.addEventListener('click', async () => { try { await Api.post('/auth/logout'); } finally { Api.reset(); window.location.href = '/'; } });
-      actions.append(logout);
-      actions.append(el('span', { class: 'salutation' }, 'Bonjour, ' + user.nom));
-      const logout = el('button', { type: 'button', class: 'bouton bouton-discret' }, 'Déconnexion');
-      logout.addEventListener('click', async () => { try { await Api.post('/auth/logout'); } finally { Api.reset(); window.location.href = '/'; } });
+      logout.addEventListener('click', async () => {
+        try { await Api.post('/auth/logout'); }
+        finally { Api.reset(); window.location.href = '/'; }
+      });
       actions.append(logout);
     } else {
       actions.append(el('a', { href: '/connexion.html', class: 'connexion-lien' }, 'Se connecter'));
